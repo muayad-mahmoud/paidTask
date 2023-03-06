@@ -34,7 +34,7 @@ class logic:
 
         browser.get(url)
         try:
-            elem = WebDriverWait(browser, 30).until(
+            elem = WebDriverWait(browser, 60).until(
                 EC.presence_of_all_elements_located(
                     (By.TAG_NAME, "b"))  # This is a dummy element
             )
