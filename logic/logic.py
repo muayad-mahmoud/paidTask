@@ -59,6 +59,7 @@ class logic:
             # self.logger.push(str(e))
             tb = traceback.format_exc()
             self.logger.push(tb)
+            self.logger.push(browser.page_source)
             return None
         finally:
             pass
