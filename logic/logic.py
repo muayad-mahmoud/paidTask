@@ -335,21 +335,24 @@ class logic:
             self.logger.push(
                 "Scrapping udemyfreebies for available courses")
             for i in range(1, self.pages):
+                try:
+                    req_url = url + str(i)
+                    req = requests.get(
+                        req_url)
 
-                req_url = url + str(i)
-                req = requests.get(
-                    req_url)
+                    soup = BeautifulSoup(req.text, "html.parser")
+                    elements = soup.find_all('div', {"class": "theme-block"})
+                    # check if 20 coupons were posted within 72 hours
+                    for each in elements:
+                        child = each.find(['small']).text
+                        dt = parse(child)
 
-                soup = BeautifulSoup(req.text, "html.parser")
-                elements = soup.find_all('div', {"class": "theme-block"})
-                # check if 20 coupons were posted within 72 hours
-                for each in elements:
-                    child = each.find(['small']).text
-                    dt = parse(child)
-
-                    check = self.checkTime(dt)
-                    if check:
-                        count += 1
+                        check = self.checkTime(dt)
+                        if check:
+                            count += 1
+                except:
+                    tb = traceback.format_exc()
+                    self.logger.push(tb)
             self.logger.push(
                 "Scrapping done , Checking if there are 20 courses in the past 72 hours")
 
