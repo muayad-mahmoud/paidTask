@@ -53,8 +53,8 @@ class logic:
                     browser.quit()
                     return None
         except Exception as e:
-            # self.logger.push("there")
-            # self.logger.push(str(e))
+            self.logger.push("there")
+            self.logger.push(str(e))
             return None
         finally:
             pass
