@@ -330,19 +330,21 @@ class logic:
     def ProcessUF(self, courses: list):
         url = "https://www.udemyfreebies.com/free-udemy-courses/"
         # self.logger.push(req.text)
-
+        head = {
+            "user-agent": 'Mozilla/5.0' "https://www.udemy.com/courses/search/?q=python&src=sac&kw=python",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+        }
         try:
             count = 0
-            s = requests.Session()
             self.logger.push(
                 "Scrapping udemyfreebies for available courses")
             for i in range(1, self.pages):
                 try:
                     req_url = url + str(i)
-                    req = s.get(
-                        req_url)
+                    req = requests.get(
+                        req_url, verify=False, headers=head)
                     self.logger.push(str(req.status_code))
-                    soup = BeautifulSoup(req.content, "html.parser")
+                    soup = BeautifulSoup(req.text, "html.parser")
                     elements = soup.find_all('div', {"class": "theme-block"})
                     # check if 20 coupons were posted within 72 hours
                     for each in elements:
@@ -373,9 +375,9 @@ class logic:
                             break
                         self.logger.push(f"Scrapping page{str(i)} for courses")
                         req_url = url + str(i)
-                        req = s.get(
-                            req_url)
-                        soup = BeautifulSoup(req.content, "html.parser")
+                        req = requests.get(
+                            req_url, headers=head, verify=False)
+                        soup = BeautifulSoup(req.text, "html.parser")
                         elements = soup.find_all('a', {"class": "theme-img"})
                         self.logger.push(
                             f"Successfully scrapped page{str(i)} for courses")
@@ -427,7 +429,8 @@ class logic:
                                 name = each["href"].split(
                                     "/")[4].replace("-", " ").title()
 
-                                req = s.get(new_url)
+                                req = requests.get(
+                                    new_url, headers=head, verify=False)
                                 Coupon = ""
                                 if "?couponCode=" in str(req.url):
                                     Coupon = str(
