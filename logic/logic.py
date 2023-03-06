@@ -137,18 +137,20 @@ class logic:
                                 self.done = True
                                 break
                             try:
-                                user_agent = "okhttp/4.9.2 UdemyAndroid 8.9.2(499) (phone)"
+                                user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36 Edg/92.0.902.84"
                                 Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
                                 options = webdriver.FirefoxOptions()
                                 options.add_argument(
                                     f'user-agent={user_agent}')
                                 options.add_argument(f'Accept={Accept}')
                                 options.add_argument('--no-sandbox')
-                                options.add_argument('--window-size=1920,1080')
+                                options.add_argument('start-maximized')
                                 options.add_argument('--headless')
                                 options.add_argument('--disable-gpu')
                                 options.add_argument(
                                     '--allow-running-insecure-content')
+                                options.add_argument(
+                                    "--disable-blink-features=AutomationControlled")
                                 options.add_argument("--headless")
                                 # options.add_argument('--disable-logging')
                                 options.binary_location = r'/usr/bin/firefox'
@@ -417,18 +419,20 @@ class logic:
                                 child = r.html.find('span')
                                 self.logger.push(child)
                                 '''
-                                user_agent = "okhttp/4.9.2 UdemyAndroid 8.9.2(499) (phone)"
+                                user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36 Edg/92.0.902.84"
                                 Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
                                 options = webdriver.FirefoxOptions()
                                 options.add_argument(
                                     f'user-agent={user_agent}')
                                 options.add_argument(f'Accept={Accept}')
                                 options.add_argument('--no-sandbox')
-                                options.add_argument('--window-size=1920,1080')
+                                options.add_argument('start-maximized')
                                 options.add_argument('--headless')
                                 options.add_argument('--disable-gpu')
                                 options.add_argument(
                                     '--allow-running-insecure-content')
+                                options.add_argument(
+                                    "--disable-blink-features=AutomationControlled")
                                 options.add_argument("--headless")
                                 # options.add_argument('--disable-logging')
                                 options.binary_location = r'/usr/bin/firefox'
