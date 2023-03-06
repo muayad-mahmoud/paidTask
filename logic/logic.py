@@ -38,8 +38,10 @@ class logic:
                 EC.presence_of_all_elements_located(
                     (By.TAG_NAME, "b"))  # This is a dummy element
             )
+            self.logger(str(browser.page_source))
             elements_var = BeautifulSoup(
                 browser.page_source, features="html.parser").find_all('b')
+            print(elements_var)
             for a in elements_var:
                 if 'days' in a.text:
                     expiry = a.text
