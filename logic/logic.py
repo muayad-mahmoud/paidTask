@@ -100,6 +100,7 @@ class logic:
 
     def getInfoDU(self, url: str, pages: int, courses: list):
         # adding comment
+        # adding
         head = {
             "user-agent": 'Mozilla/5.0' "https://www.udemy.com/courses/search/?q=python&src=sac&kw=python",
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
