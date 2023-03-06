@@ -333,15 +333,16 @@ class logic:
 
         try:
             count = 0
+            s = requests.Session()
             self.logger.push(
                 "Scrapping udemyfreebies for available courses")
             for i in range(1, self.pages):
                 try:
                     req_url = url + str(i)
-                    req = requests.get(
+                    req = s.get(
                         req_url)
                     self.logger.push(str(req.status_code))
-                    soup = BeautifulSoup(req.text, "html.parser")
+                    soup = BeautifulSoup(req.content, "html.parser")
                     elements = soup.find_all('div', {"class": "theme-block"})
                     # check if 20 coupons were posted within 72 hours
                     for each in elements:
@@ -372,9 +373,9 @@ class logic:
                             break
                         self.logger.push(f"Scrapping page{str(i)} for courses")
                         req_url = url + str(i)
-                        req = requests.get(
+                        req = s.get(
                             req_url)
-                        soup = BeautifulSoup(req.text, "html.parser")
+                        soup = BeautifulSoup(req.content, "html.parser")
                         elements = soup.find_all('a', {"class": "theme-img"})
                         self.logger.push(
                             f"Successfully scrapped page{str(i)} for courses")
@@ -426,7 +427,7 @@ class logic:
                                 name = each["href"].split(
                                     "/")[4].replace("-", " ").title()
 
-                                req = requests.get(new_url)
+                                req = s.get(new_url)
                                 Coupon = ""
                                 if "?couponCode=" in str(req.url):
                                     Coupon = str(
