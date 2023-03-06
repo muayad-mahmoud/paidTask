@@ -71,7 +71,7 @@ class logic:
         count = 0
         for i in range(1, pages):
             try:
-                r = requests.get(url + str(i), headers=head)
+                r = requests.get(url + str(i), headers=head, verify=False)
                 soup = BeautifulSoup(r.content, features="html.parser")
                 elements = soup.find_all('span', {"class": "category"})
                 for each in elements:
@@ -96,6 +96,10 @@ class logic:
 
     def getInfoDU(self, url: str, pages: int, courses: list):
         # adding comment
+        head = {
+            "user-agent": 'Mozilla/5.0' "https://www.udemy.com/courses/search/?q=python&src=sac&kw=python",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+        }
         while self.interupt != True:
             if self.interupt:
                 break
@@ -108,7 +112,8 @@ class logic:
                     break
                 try:
                     self.logger.push(f"Scrapping page{str(i)} for courses")
-                    r = requests.get("https://www.discudemy.com/all/" + str(i))
+                    r = requests.get(
+                        "https://www.discudemy.com/all/" + str(i), headers=head, verify=False)
                     soup = BeautifulSoup(r.content, features="html.parser")
                     elements = soup.find_all('a', {"class": "card-header"})
                     self.logger.push(
@@ -128,7 +133,8 @@ class logic:
                                 self.done = True
                                 break
                             try:
-                                user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36 Edg/92.0.902.84"
+
+                                user_agent = 'Mozilla/5.0' "https://www.udemy.com/courses/search/?q=python&src=sac&kw=python"
                                 Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
                                 options = webdriver.FirefoxOptions()
                                 options.add_argument(
@@ -151,7 +157,7 @@ class logic:
                                 self.logger.push(f"Attempting Extraction")
                                 go_url = each["href"].split('/')[4]
                                 req = requests.get(
-                                    f"https://www.discudemy.com/go/{go_url}")
+                                    f"https://www.discudemy.com/go/{go_url},", headers=head)
                                 temp_soup = BeautifulSoup(
                                     req.content, features="html.parser")
                                 coupon_elem = temp_soup.find(
@@ -408,7 +414,7 @@ class logic:
                                 child = r.html.find('span')
                                 self.logger.push(child)
                                 '''
-                                user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36 Edg/92.0.902.84"
+                                user_agent = 'Mozilla/5.0' "https://www.udemy.com/courses/search/?q=python&src=sac&kw=python"
                                 Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
                                 options = webdriver.FirefoxOptions()
                                 options.add_argument(
