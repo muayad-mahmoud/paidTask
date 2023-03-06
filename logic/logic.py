@@ -38,7 +38,7 @@ class logic:
                 EC.presence_of_all_elements_located(
                     (By.TAG_NAME, "b"))  # This is a dummy element
             )
-            self.logger(str(browser.page_source))
+            self.logger.push(str(browser.page_source))
             elements_var = BeautifulSoup(
                 browser.page_source, features="html.parser").find_all('b')
             print(elements_var)
@@ -57,6 +57,8 @@ class logic:
         except Exception as e:
             # self.logger.push("there")
             # self.logger.push(str(e))
+            tb = traceback.format_exc()
+            self.logger.push(tb)
             return None
         finally:
             pass
