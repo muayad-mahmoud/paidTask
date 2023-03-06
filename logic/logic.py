@@ -314,6 +314,7 @@ class logic:
                     "Host": "www.real.discount",
                     "Connection": "Keep-Alive",
                 }, timeout=10).json()
+
             filtered_list = self.filterList(r['results'])
             filtered_list.sort(key=lambda x: x['sale_start'], reverse=True)
             count = self.check20Courses(filtered_list)
@@ -339,7 +340,7 @@ class logic:
                     req_url = url + str(i)
                     req = requests.get(
                         req_url)
-
+                    self.logger.push(req.status_code)
                     soup = BeautifulSoup(req.text, "html.parser")
                     elements = soup.find_all('div', {"class": "theme-block"})
                     # check if 20 coupons were posted within 72 hours
