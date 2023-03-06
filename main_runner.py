@@ -39,7 +39,6 @@ class MyThread(Thread):
         self.finished.emit()
 
 
-threads = []
 coursesResult = []
 
 settings = {}
@@ -72,6 +71,7 @@ def finishedWork():
         toCSV(coursesResult[:settings['maxCourses']])
         log.push("Data updated , you can download the new courses via the link below")
         running.value = True
+        threads = []
         datazz.bind_visibility_from(running, 'value')
 
 
@@ -128,12 +128,10 @@ def save_settings():
         logicRunnerArr.append(lo)
 
     for i in logicRunnerArr:
-        threads = []
+
         p = MyThread(target=i.wrapper, args=())
         p.finished.connect(finishedWork)
-        threads.append(p)
-    for i in threads:
-        i.start()
+        p.start()
     # t1 = threading.Thread(target=doSomething)
     # t2 = threading.Thread(target=doSomething)
     # i = logic("uf", log)
@@ -147,6 +145,7 @@ def save_settings():
 
 def runMethod():
     running.value = False
+
     datazz.bind_visibility_from(running, 'value')
     save_settings()
 
