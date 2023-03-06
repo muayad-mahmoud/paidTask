@@ -95,6 +95,7 @@ class logic:
         return count
 
     def getInfoDU(self, url: str, pages: int, courses: list):
+        # adding comment
         while self.interupt != True:
             if self.interupt:
                 break
