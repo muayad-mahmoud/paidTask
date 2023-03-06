@@ -462,9 +462,12 @@ class logic:
                                 else:
                                     self.logger.push("Course is expired")
                                     j = self.max_retries
-            self.done = True
+
             # for x in courses:
             #     self.logger.push(x)
+            else:
+                self.logger.push("Count is not enough")
+            self.done = True
 
         except Exception as e:
             tb = traceback.format_exc()
