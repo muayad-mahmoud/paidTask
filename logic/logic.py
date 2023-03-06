@@ -53,8 +53,8 @@ class logic:
                     browser.quit()
                     return None
         except Exception as e:
-            self.logger.push("there")
-            self.logger.push(str(e))
+            # self.logger.push("there")
+            # self.logger.push(str(e))
             return None
         finally:
             pass
@@ -209,11 +209,13 @@ class logic:
         self.done = True
 
     def ProcessDU(self, course: list):
-        self.logger.push("Checking 20 Courses Constraint on discudemy")
-        count = self.checkPrevious("https://www.discudemy.com/all/", self.pages, head={
-            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36 Edg/92.0.902.84",
+        head = {
+            "user-agent": 'Mozilla/5.0' "https://www.udemy.com/courses/search/?q=python&src=sac&kw=python",
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-        })
+        }
+        self.logger.push("Checking 20 Courses Constraint on discudemy")
+        count = self.checkPrevious(
+            "https://www.discudemy.com/all/", self.pages, head=head)
         if count > 20:
             self.logger.push("Passed, Moving On")
             self.getInfoDU(
