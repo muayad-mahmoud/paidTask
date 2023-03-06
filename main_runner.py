@@ -8,6 +8,16 @@ from pyrvsignal import Signal
 import os
 logicRunnerArr = []
 
+datazz = None
+
+
+class runner:
+    def __init__(self) -> None:
+        self.value = True
+
+
+running = runner()
+
 
 @app.get('/download')
 def download():
@@ -27,12 +37,6 @@ class MyThread(Thread):
         self.started.emit()
         self.target(*self.args)
         self.finished.emit()
-
-
-def doSomething():
-    for i in range(100000):
-        # log.push(f"lol {str(i)}")
-        pass
 
 
 threads = []
@@ -67,69 +71,69 @@ def finishedWork():
         log.push("Converting to CSV")
         toCSV(coursesResult[:settings['maxCourses']])
         log.push("Data updated , you can download the new courses via the link below")
+        running.value = True
+        datazz.bind_visibility_from(running, 'value')
 
 
 def save_settings():
-    if len(logicRunnerArr) > 0:
-        log.push("Working, Please Wait")
+
+    settings["uf"] = checkbox1.value
+    settings["rd"] = checkbox2.value
+    settings["du"] = checkbox3.value
+    if text1.value != None and int(text1.value) == text1.value and int(text1.value) > 0:
+        settings["pages1"] = int(text1.value)
     else:
+        log.push("Error with freebies number of pages , using default")
+        settings["pages1"] = 3
+    if text2.value != None and int(text2.value) == text2.value and int(text2.value) > 0:
+        settings["pages2"] = int(text2.value)
+    else:
+        log.push("Error with realdiscount number of pages , using default")
+        settings["pages2"] = 40
+    if text3.value != None and int(text3.value) == text3.value and int(text3.value) > 0:
+        settings["pages3"] = int(text3.value)
+    else:
+        log.push("Error with discudemy number of pages , using default")
+        settings["pages3"] = 3
+    if text4.value != None and int(text4.value) == text4.value and int(text4.value) > 0:
+        settings["maxCourses"] = int(text4.value)
+    else:
+        log.push("Error with maxCourses number , using default")
+        settings["maxCourses"] = 200
+    if text5.value != None and int(text5.value) == text5.value and int(text5.value) > 0:
+        settings["NoOlderThan"] = int(text5.value)
+    else:
+        log.push("Error with NoOlderThan number , using default")
+        settings["NoOlderThan"] = 2
+    if text6.value != None and int(text6.value) == text6.value and int(text6.value) > 0:
+        settings['maxretries'] = int(text6.value)
+    else:
+        log.push("Error with max-retries number , using default")
+        settings["maxretries"] = 1
 
-        settings["uf"] = checkbox1.value
-        settings["rd"] = checkbox2.value
-        settings["du"] = checkbox3.value
-        if text1.value != None and int(text1.value) == text1.value and int(text1.value) > 0:
-            settings["pages1"] = int(text1.value)
-        else:
-            log.push("Error with freebies number of pages , using default")
-            settings["pages1"] = 3
-        if text2.value != None and int(text2.value) == text2.value and int(text2.value) > 0:
-            settings["pages2"] = int(text2.value)
-        else:
-            log.push("Error with realdiscount number of pages , using default")
-            settings["pages2"] = 40
-        if text3.value != None and int(text3.value) == text3.value and int(text3.value) > 0:
-            settings["pages3"] = int(text3.value)
-        else:
-            log.push("Error with discudemy number of pages , using default")
-            settings["pages3"] = 3
-        if text4.value != None and int(text4.value) == text4.value and int(text4.value) > 0:
-            settings["maxCourses"] = int(text4.value)
-        else:
-            log.push("Error with maxCourses number , using default")
-            settings["maxCourses"] = 200
-        if text5.value != None and int(text5.value) == text5.value and int(text5.value) > 0:
-            settings["NoOlderThan"] = int(text5.value)
-        else:
-            log.push("Error with NoOlderThan number , using default")
-            settings["NoOlderThan"] = 2
-        if text6.value != None and int(text6.value) == text6.value and int(text6.value) > 0:
-            settings['maxretries'] = int(text6.value)
-        else:
-            log.push("Error with max-retries number , using default")
-            settings["maxretries"] = 1
+    # print(settings)
+    log.push(
+        f"Starting Script with settings (udemyfreebies.com: ({checkbox1.value}, number of pages: {int(settings['pages1'])}), real.discount: ({checkbox2.value}, number of pages: {settings['pages2']}), discudemy.com: ({checkbox3.value}, number of pages: {settings['pages3']}), max-courses: {settings['maxCourses']}, Courses not older than: {settings['NoOlderThan']}, max-retries: {settings['maxretries']})")
+    if settings["uf"]:
+        lo = logic(placeholder="uf", logger=log,
+                   pages=settings["pages1"], noOlder=settings['NoOlderThan'], max_courses=settings['maxCourses'], max_retries=settings['maxretries'])
+        logicRunnerArr.append(lo)
+    if settings["rd"]:
+        lo = logic(placeholder="rd", logger=log,
+                   pages=settings["pages2"], noOlder=settings['NoOlderThan'], max_courses=settings['maxCourses'], max_retries=settings['maxretries'])
+        logicRunnerArr.append(lo)
+    if settings["du"]:
+        lo = logic(placeholder="du", logger=log,
+                   pages=settings["pages3"], noOlder=settings['NoOlderThan'], max_courses=settings['maxCourses'], max_retries=settings['maxretries'])
+        logicRunnerArr.append(lo)
 
-        # print(settings)
-        log.push(
-            f"Starting Script with settings (udemyfreebies.com: ({checkbox1.value}, number of pages: {int(settings['pages1'])}), real.discount: ({checkbox2.value}, number of pages: {settings['pages2']}), discudemy.com: ({checkbox3.value}, number of pages: {settings['pages3']}), max-courses: {settings['maxCourses']}, Courses not older than: {settings['NoOlderThan']}, max-retries: {settings['maxretries']})")
-        if settings["uf"]:
-            lo = logic(placeholder="uf", logger=log,
-                       pages=settings["pages1"], noOlder=settings['NoOlderThan'], max_courses=settings['maxCourses'], max_retries=settings['maxretries'])
-            logicRunnerArr.append(lo)
-        if settings["rd"]:
-            lo = logic(placeholder="rd", logger=log,
-                       pages=settings["pages2"], noOlder=settings['NoOlderThan'], max_courses=settings['maxCourses'], max_retries=settings['maxretries'])
-            logicRunnerArr.append(lo)
-        if settings["du"]:
-            lo = logic(placeholder="du", logger=log,
-                       pages=settings["pages3"], noOlder=settings['NoOlderThan'], max_courses=settings['maxCourses'], max_retries=settings['maxretries'])
-            logicRunnerArr.append(lo)
-
-        for i in logicRunnerArr:
-            p = MyThread(target=i.wrapper, args=())
-            p.finished.connect(finishedWork)
-            threads.append(p)
-        for i in threads:
-            i.start()
+    for i in logicRunnerArr:
+        threads = []
+        p = MyThread(target=i.wrapper, args=())
+        p.finished.connect(finishedWork)
+        threads.append(p)
+    for i in threads:
+        i.start()
     # t1 = threading.Thread(target=doSomething)
     # t2 = threading.Thread(target=doSomething)
     # i = logic("uf", log)
@@ -138,14 +142,14 @@ def save_settings():
     # t2.start()
     # t3.start()
 
-    # log.push("hello")
-    return settings
+    log.push("hello")
 
 
 def runMethod():
+    running.value = False
+    datazz.bind_visibility_from(running, 'value')
+    save_settings()
 
-    settings = save_settings()
-    print(settings)
     # if settings["uf"]:
     #     lo = logic(placeholder="uf")
     #     logicRunnerArr.append(lo)
@@ -216,7 +220,8 @@ with ui.column().props('inline color=black').classes('absolute-center justify-ce
                       placeholder='1', validation={'Wrong Entry': lambda value: int(value) > 0, 'Fractions are not allowed': lambda value: int(value) == value}).classes('w-64 text-center')
     result = ui.label()
     ui.link('Download precollected courses , or press after collection is done for new ones', '/download')
-    ui.button('Start Process', on_click=runMethod)
+    datazz = ui.button('Start Process', on_click=runMethod)
+    datazz.bind_visibility_from(running, 'value')
 
 
 if __name__ in {"__main__", "__mp_main__"}:
