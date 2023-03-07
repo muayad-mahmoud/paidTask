@@ -142,6 +142,8 @@ class logic:
                                 options.add_argument('--disable-gpu')
                                 options.add_argument(
                                     '--allow-running-insecure-content')
+                                options.addArguments(
+                                    "--ignore-certificate-errors")
                                 options.add_argument("--headless")
                                 # options.add_argument('--disable-logging')
                                 options.binary_location = r'C:\\Program Files\\Mozilla Firefox\\firefox.exe'
@@ -427,6 +429,8 @@ class logic:
                                 options.add_argument('--disable-gpu')
                                 options.add_argument(
                                     '--allow-running-insecure-content')
+                                options.addArguments(
+                                    "--ignore-certificate-errors")
                                 options.add_argument("--headless")
                                 # options.add_argument('--disable-logging')
                                 options.binary_location = r'C:\\Program Files\\Mozilla Firefox\\firefox.exe'
