@@ -65,7 +65,7 @@ def finishedWork():
                     for j in logicRunnerArr:
                         j.max_courses = new_maxCourses
 
-    if len(logicRunnerArr) == 0:
+    if len(logicRunnerArr) == 0 and len(coursesResult) != 0:
         # print(coursesResult)
         log.push("Converting to CSV")
         toCSV(coursesResult[:settings['maxCourses']])
@@ -73,6 +73,13 @@ def finishedWork():
         running.value = True
         threads = []
         datazz.bind_visibility_from(running, 'value')
+    elif len(logicRunnerArr) == 0 and len(coursesResult) == 0:
+        running.value = True
+        threads = []
+        datazz.bind_visibility_from(running, 'value')
+        log.push("Process Done, No Courses were collected")
+    else:
+        log.push("Process Done, No Courses were collected")
 
 
 def save_settings():

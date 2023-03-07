@@ -55,6 +55,8 @@ class logic:
         except Exception as e:
             # self.logger.push("there")
             # self.logger.push(str(e))
+            tb = traceback.format_exc()
+            self.logger.push(tb)
             return None
         finally:
             pass
@@ -91,7 +93,8 @@ class logic:
                                 count += 1
                             continue
             except:
-                pass
+                tb = traceback.format_exc()
+                print(tb)
         return count
 
     def getInfoDU(self, url: str, pages: int, courses: list):
@@ -142,11 +145,10 @@ class logic:
                                 options.add_argument('--disable-gpu')
                                 options.add_argument(
                                     '--allow-running-insecure-content')
-                                options.add_argument(
-                                    "--ignore-certificate-errors")
+
                                 options.add_argument("--headless")
                                 # options.add_argument('--disable-logging')
-                                options.binary_location = r'/usr/bin/firefox'
+                                options.binary_location = r'C:\\Program Files\\Mozilla Firefox\\firefox.exe'
 
                                 browser = webdriver.Firefox(options=options)
                                 name = each.text
@@ -429,11 +431,10 @@ class logic:
                                 options.add_argument('--disable-gpu')
                                 options.add_argument(
                                     '--allow-running-insecure-content')
-                                options.add_argument(
-                                    "--ignore-certificate-errors")
+
                                 options.add_argument("--headless")
                                 # options.add_argument('--disable-logging')
-                                options.binary_location = r'/usr/bin/firefox'
+                                options.binary_location = r'C:\\Program Files\\Mozilla Firefox\\firefox.exe'
 
                                 browser = webdriver.Firefox(options=options)
 
