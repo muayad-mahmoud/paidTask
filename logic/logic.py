@@ -148,7 +148,7 @@ class logic:
 
                                 options.add_argument("--headless")
                                 # options.add_argument('--disable-logging')
-                                options.binary_location = r'C:\\Program Files\\Mozilla Firefox\\firefox.exe'
+                                options.binary_location = r'/usr/bin/firefox'
 
                                 browser = webdriver.Firefox(options=options)
                                 name = each.text
@@ -434,7 +434,7 @@ class logic:
 
                                 options.add_argument("--headless")
                                 # options.add_argument('--disable-logging')
-                                options.binary_location = r'C:\\Program Files\\Mozilla Firefox\\firefox.exe'
+                                options.binary_location = r'/usr/bin/firefox'
 
                                 browser = webdriver.Firefox(options=options)
 
