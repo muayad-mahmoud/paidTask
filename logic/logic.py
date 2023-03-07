@@ -142,7 +142,7 @@ class logic:
                                 options.add_argument('--disable-gpu')
                                 options.add_argument(
                                     '--allow-running-insecure-content')
-                                options.add_rguments(
+                                options.add_argument(
                                     "--ignore-certificate-errors")
                                 options.add_argument("--headless")
                                 # options.add_argument('--disable-logging')
@@ -429,7 +429,7 @@ class logic:
                                 options.add_argument('--disable-gpu')
                                 options.add_argument(
                                     '--allow-running-insecure-content')
-                                options.add_arguments(
+                                options.add_argument(
                                     "--ignore-certificate-errors")
                                 options.add_argument("--headless")
                                 # options.add_argument('--disable-logging')
