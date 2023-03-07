@@ -34,14 +34,12 @@ class logic:
 
         browser.get(url)
         try:
-            elem = WebDriverWait(browser, 60).until(
+            elem = WebDriverWait(browser, 30).until(
                 EC.presence_of_all_elements_located(
                     (By.TAG_NAME, "b"))  # This is a dummy element
             )
-            self.logger.push(str(browser.page_source))
             elements_var = BeautifulSoup(
                 browser.page_source, features="html.parser").find_all('b')
-            print(elements_var)
             for a in elements_var:
                 if 'days' in a.text:
                     expiry = a.text
@@ -57,9 +55,6 @@ class logic:
         except Exception as e:
             # self.logger.push("there")
             # self.logger.push(str(e))
-            tb = traceback.format_exc()
-            self.logger.push(tb)
-            self.logger.push(browser.page_source)
             return None
         finally:
             pass
@@ -76,7 +71,7 @@ class logic:
         count = 0
         for i in range(1, pages):
             try:
-                r = requests.get(url + str(i), headers=head, verify=False)
+                r = requests.get(url + str(i), headers=head)
                 soup = BeautifulSoup(r.content, features="html.parser")
                 elements = soup.find_all('span', {"class": "category"})
                 for each in elements:
@@ -101,11 +96,7 @@ class logic:
 
     def getInfoDU(self, url: str, pages: int, courses: list):
         # adding comment
-        # adding
-        head = {
-            "user-agent": 'Mozilla/5.0' "https://www.udemy.com/courses/search/?q=python&src=sac&kw=python",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-        }
+
         while self.interupt != True:
             if self.interupt:
                 break
@@ -119,7 +110,7 @@ class logic:
                 try:
                     self.logger.push(f"Scrapping page{str(i)} for courses")
                     r = requests.get(
-                        "https://www.discudemy.com/all/" + str(i), headers=head, verify=False)
+                        "https://www.discudemy.com/all/" + str(i))
                     soup = BeautifulSoup(r.content, features="html.parser")
                     elements = soup.find_all('a', {"class": "card-header"})
                     self.logger.push(
@@ -146,16 +137,14 @@ class logic:
                                     f'user-agent={user_agent}')
                                 options.add_argument(f'Accept={Accept}')
                                 options.add_argument('--no-sandbox')
-                                options.add_argument('start-maximized')
+                                options.add_argument('--window-size=1920,1080')
                                 options.add_argument('--headless')
                                 options.add_argument('--disable-gpu')
                                 options.add_argument(
                                     '--allow-running-insecure-content')
-                                options.add_argument(
-                                    "--disable-blink-features=AutomationControlled")
                                 options.add_argument("--headless")
                                 # options.add_argument('--disable-logging')
-                                options.binary_location = r'/usr/bin/firefox'
+                                options.binary_location = r'C:\\Program Files\\Mozilla Firefox\\firefox.exe'
 
                                 browser = webdriver.Firefox(options=options)
                                 name = each.text
@@ -164,11 +153,14 @@ class logic:
                                 self.logger.push(f"Attempting Extraction")
                                 go_url = each["href"].split('/')[4]
                                 req = requests.get(
-                                    f"https://www.discudemy.com/go/{go_url},", headers=head)
+                                    f"https://www.discudemy.com/go/{go_url}")
+
                                 temp_soup = BeautifulSoup(
                                     req.content, features="html.parser")
+
                                 coupon_elem = temp_soup.find(
                                     'a', {"id": "couponLink"})
+
                                 Coupon = ""
                                 if "?couponCode=" in str(coupon_elem["href"]):
                                     Coupon = str(
@@ -209,6 +201,8 @@ class logic:
                                         f"Course Expired, Moving On...")
                                     j = self.max_retries
                             except:
+                                tb = traceback.format_exc()
+                                print(tb)
                                 if j+1 >= self.max_retries:
                                     self.logger.push(
                                         f"Error Occured , Skipping after attempting all retries")
@@ -216,7 +210,7 @@ class logic:
                                 else:
                                     self.logger.push(
                                         f"Error Occured, Retrying Attempt {j} of {self.max_retries}")
-                                    j += 1
+                                    j = j + 1
                 except:
                     pass
         self.done = True
@@ -357,7 +351,7 @@ class logic:
                 try:
                     req_url = url + str(i)
                     req = requests.get(
-                        req_url, verify=False, headers=head)
+                        req_url, headers=head)
                     self.logger.push(str(req.status_code))
                     soup = BeautifulSoup(req.text, "html.parser")
                     elements = soup.find_all('div', {"class": "theme-block"})
@@ -391,7 +385,7 @@ class logic:
                         self.logger.push(f"Scrapping page{str(i)} for courses")
                         req_url = url + str(i)
                         req = requests.get(
-                            req_url, headers=head, verify=False)
+                            req_url, headers=head)
                         soup = BeautifulSoup(req.text, "html.parser")
                         elements = soup.find_all('a', {"class": "theme-img"})
                         self.logger.push(
@@ -428,16 +422,14 @@ class logic:
                                     f'user-agent={user_agent}')
                                 options.add_argument(f'Accept={Accept}')
                                 options.add_argument('--no-sandbox')
-                                options.add_argument('start-maximized')
+                                options.add_argument('--window-size=1920,1080')
                                 options.add_argument('--headless')
                                 options.add_argument('--disable-gpu')
                                 options.add_argument(
                                     '--allow-running-insecure-content')
-                                options.add_argument(
-                                    "--disable-blink-features=AutomationControlled")
                                 options.add_argument("--headless")
                                 # options.add_argument('--disable-logging')
-                                options.binary_location = r'/usr/bin/firefox'
+                                options.binary_location = r'C:\\Program Files\\Mozilla Firefox\\firefox.exe'
 
                                 browser = webdriver.Firefox(options=options)
 
@@ -447,7 +439,7 @@ class logic:
                                     "/")[4].replace("-", " ").title()
 
                                 req = requests.get(
-                                    new_url, headers=head, verify=False)
+                                    new_url, headers=head)
                                 Coupon = ""
                                 if "?couponCode=" in str(req.url):
                                     Coupon = str(

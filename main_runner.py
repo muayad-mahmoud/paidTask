@@ -225,7 +225,7 @@ with ui.column().props('inline color=black').classes('absolute-center justify-ce
 
 if __name__ in {"__main__", "__mp_main__"}:
 
-    ui.run(uvicorn_reload_includes='*.py, *.css, *.html')
+    ui.run(uvicorn_reload_includes='*.py, *.css, *.html', port=4444)
     # time_start = datetime.now()
 
     # difference = datetime.now() - time_start

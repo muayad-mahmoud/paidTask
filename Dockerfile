@@ -13,12 +13,21 @@ ENV PYTHONUNBUFFERED=1
 COPY requirements.txt .
 RUN python -m pip install -r requirements.txt
 USER root
+
+RUN  apt-get update \
+    && apt-get install -y wget 
+
+
+RUN apt-get -y update
 RUN apt-get update                             \
     && apt-get install -y --no-install-recommends \
     ca-certificates curl firefox-esr           \
     && rm -fr /var/lib/apt/lists/*                \
+    && curl -sSL https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+    RUN dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install \
     && curl -L https://github.com/mozilla/geckodriver/releases/download/v0.32.2/geckodriver-v0.32.2-linux64.tar.gz | tar xz -C /usr/local/bin \
     && apt-get purge -y ca-certificates curl
+
 WORKDIR /app
 COPY . /app
 
